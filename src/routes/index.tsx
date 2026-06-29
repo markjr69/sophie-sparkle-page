@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Instagram, Twitter, Lock, ArrowRight, Eye, Sparkles } from "lucide-react";
+import { Instagram, Twitter, Lock, ArrowRight, Eye, Sparkles, X } from "lucide-react";
 
 import avatar from "@/assets/sophie-avatar.jpg";
 import m1 from "@/assets/model-1.jpg";
