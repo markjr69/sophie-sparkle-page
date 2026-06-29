@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Instagram, Twitter, Lock, ArrowRight, Eye, Sparkles } from "lucide-react";
+import { Instagram, Twitter, Lock, ArrowRight, Eye, Sparkles, X } from "lucide-react";
 
 import avatar from "@/assets/sophie-avatar.jpg";
 import m1 from "@/assets/model-1.jpg";
@@ -167,7 +167,42 @@ function LiveViewers() {
   );
 }
 
+function ImageLightbox({ src, label, onClose }: { src: string; label: string; onClose: () => void }) {
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm animate-slide-up-fade"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-md transition hover:bg-white/20"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5" />
+      </button>
+      <img
+        src={src}
+        alt={label}
+        className="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+}
+
 function Index() {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; label: string } | null>(null);
   return (
     <main className="relative min-h-[100svh] w-full overflow-hidden text-white">
       <BackgroundGrid />
@@ -255,9 +290,10 @@ function Index() {
                 { src: m6, label: "Behind the scenes" },
                 { src: m7, label: "Exclusive drop" },
               ].map((item, i) => (
-                <a
+                <button
                   key={i}
-                  href="#vip"
+                  type="button"
+                  onClick={() => setSelectedImage(item)}
                   className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 transition-all duration-300 hover:scale-[1.02] hover:border-white/25 hover:shadow-lg active:scale-[0.98]"
                   style={{ animationDelay: `${i * 0.08}s` }}
                 >
@@ -266,20 +302,22 @@ function Index() {
                       src={item.src}
                       alt={item.label}
                       loading="lazy"
-                      className="h-full w-full object-cover opacity-85 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-all duration-300 group-hover:scale-105"
                     />
                   </div>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <Lock className="h-5 w-5 text-white" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-white">Unlock</span>
-                  </div>
-                  <div className="absolute right-1.5 top-1.5 rounded-full bg-black/40 p-1 backdrop-blur-sm">
-                    <Lock className="h-3 w-3 text-white/80" />
-                  </div>
-                </a>
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Lightbox */}
+          {selectedImage && (
+            <ImageLightbox
+              src={selectedImage.src}
+              label={selectedImage.label}
+              onClose={() => setSelectedImage(null)}
+            />
+          )}
 
           {/* Footer / live counter */}
           <div className="mt-5 flex flex-col items-center gap-2">
