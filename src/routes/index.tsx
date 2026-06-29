@@ -236,6 +236,51 @@ function Index() {
             <SocialButton icon={<RedditIcon className="h-[18px] w-[18px]" />} label="Reddit" href="https://reddit.com" />
           </div>
 
+          {/* Recent uploads */}
+          <div className="mt-6">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                Recent uploads
+              </span>
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            </div>
+
+            <div className="grid grid-cols-3 gap-2.5">
+              {[
+                { src: m1, label: "Mirror selfie" },
+                { src: m2, label: "Beach morning" },
+                { src: m3, label: "Late night" },
+                { src: m4, label: "VIP set" },
+                { src: m6, label: "Behind the scenes" },
+                { src: m7, label: "Exclusive drop" },
+              ].map((item, i) => (
+                <a
+                  key={i}
+                  href="#vip"
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 transition-all duration-300 hover:scale-[1.02] hover:border-white/25 hover:shadow-lg active:scale-[0.98]"
+                  style={{ animationDelay: `${i * 0.08}s` }}
+                >
+                  <div className="aspect-[3/4] overflow-hidden rounded-2xl">
+                    <img
+                      src={item.src}
+                      alt={item.label}
+                      loading="lazy"
+                      className="h-full w-full object-cover opacity-85 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <Lock className="h-5 w-5 text-white" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-white">Unlock</span>
+                  </div>
+                  <div className="absolute right-1.5 top-1.5 rounded-full bg-black/40 p-1 backdrop-blur-sm">
+                    <Lock className="h-3 w-3 text-white/80" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
           {/* Footer / live counter */}
           <div className="mt-5 flex flex-col items-center gap-2">
             <LiveViewers />
