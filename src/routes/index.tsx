@@ -167,7 +167,42 @@ function LiveViewers() {
   );
 }
 
+function ImageLightbox({ src, label, onClose }: { src: string; label: string; onClose: () => void }) {
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm animate-slide-up-fade"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white backdrop-blur-md transition hover:bg-white/20"
+        aria-label="Close"
+      >
+        <X className="h-5 w-5" />
+      </button>
+      <img
+        src={src}
+        alt={label}
+        className="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+}
+
 function Index() {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; label: string } | null>(null);
   return (
     <main className="relative min-h-[100svh] w-full overflow-hidden text-white">
       <BackgroundGrid />
