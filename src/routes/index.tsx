@@ -249,7 +249,7 @@ function Index() {
 
           {/* CTA */}
           <a
-            href="#vip"
+            href="https://www.fanvue.com/sophierose_.21"
             className="btn-magenta animate-pulse-glow group relative mt-6 flex w-full flex-col items-center justify-center rounded-2xl px-5 py-4 text-center"
           >
             <span className="shimmer-overlay absolute inset-0 rounded-2xl" />
