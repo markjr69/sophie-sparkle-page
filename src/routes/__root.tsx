@@ -1,3 +1,4 @@
+import { AgeGate } from "../components/ui/AgeGate";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -95,6 +96,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <AgeGate />
       <Outlet />
     </QueryClientProvider>
   );
